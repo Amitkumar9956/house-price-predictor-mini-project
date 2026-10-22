@@ -5,7 +5,7 @@
 **Department:** Department of Computer Science & Engineering  
 **Institution:** UNITED INSTITUTE OF TECHNOLOGY (284), Prayagraj  
 **Affiliation:** Dr. A.P.J. Abdul Kalam Technical University, Lucknow  
-**Student Name:** Shyam Babu  
+**Student Name:** Amit Kumar  
 **University Roll Number:** [University Roll Number]  
 **Supervisor / Trainer:** [Trainer / Supervisor Name]  
 
