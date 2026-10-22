@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: amitkumar9956-house-price-predictor
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true

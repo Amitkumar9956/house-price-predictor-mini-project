@@ -7,7 +7,7 @@ An end-to-end Machine Learning project that predicts house prices using a tuned 
 
 ## 🚀 Live Demo
 
-[Open Live House Price Prediction App](https://housepriceprediction-ff3ec9kvpcg2wyddtaokxu.streamlit.app/)
+[Open Live House Price Prediction App](https://amitkumar9956-house-price-predictor.onrender.com/)
 
 ## 📌 Project Overview
 
@@ -115,7 +115,7 @@ Feature Importance
    ↓
 Model Saving
    ↓
-Streamlit Application
+Flask Web Application
    ↓
 Cloud Deployment
 ```
@@ -234,11 +234,11 @@ The model provides better performance than the Linear Regression baseline.
 
 ## 🌐 Deployment
 
-The application has been deployed using Streamlit Community Cloud.
+The current Flask application is configured for Render using [`render.yaml`](render.yaml) and the production Dockerfile. The hosted version uses the Flask interface in this repository.
 
 ### Live Application
 
-[Open Live House Price Prediction App](https://housepriceprediction-ff3ec9kvpcg2wyddtaokxu.streamlit.app/)
+[Open Live House Price Prediction App](https://amitkumar9956-house-price-predictor.onrender.com/)
 
 The deployed application allows users to enter house characteristics and receive an estimated house price.
 
@@ -259,7 +259,7 @@ Possible future improvements include:
 - Testing XGBoost or LightGBM
 - Advanced feature engineering
 - Hyperparameter optimization using GridSearchCV or RandomizedSearchCV
-- Improving the Streamlit user interface
+- Improving the Flask user interface
 - Adding prediction confidence or uncertainty estimates
 - Adding more visualizations
 - Improving model performance
