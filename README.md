@@ -5,9 +5,9 @@ An end-to-end Machine Learning project that predicts house prices using a tuned 
 **Project owner:** [Amit Kumar](https://github.com/Amitkumar9956)
 **GitHub repository:** [house-price-predictor-mini-project](https://github.com/Amitkumar9956/house-price-predictor-mini-project)
 
-## 🚀 Live Demo
+## 🚀 Deployment
 
-[Open Live House Price Prediction App](https://amitkumar9956-house-price-predictor.onrender.com/)
+The current Flask app is configured for Render. [Create the Render service from this repository](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2FAmitkumar9956%2Fhouse-price-predictor-mini-project). Once deployment completes, add the service's public URL here as the live demo.
 
 ## 📌 Project Overview
 
@@ -232,15 +232,9 @@ The tuned Random Forest model achieved the following results on the test dataset
 
 The model provides better performance than the Linear Regression baseline.
 
-## 🌐 Deployment
+## 🌐 Hosting Configuration
 
-The current Flask application is configured for Render using [`render.yaml`](render.yaml) and the production Dockerfile. The hosted version uses the Flask interface in this repository.
-
-### Live Application
-
-[Open Live House Price Prediction App](https://amitkumar9956-house-price-predictor.onrender.com/)
-
-The deployed application allows users to enter house characteristics and receive an estimated house price.
+The Render Blueprint in [`render.yaml`](render.yaml) and the production [`Dockerfile`](Dockerfile) run the Flask interface from this repository. To run it locally, see the Running the Application section below. The old Streamlit demo URL has been removed because it serves the previous interface.
 
 ## 💡 Key Findings
 
