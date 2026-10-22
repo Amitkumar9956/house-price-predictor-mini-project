@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valuation Report | HousePrice Prediction</title>
+  <link rel="stylesheet" href="/static/style.css?v=2026">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="result-page">
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <span class="brand-icon">🏠</span>
+        <span class="brand-text">HousePrice <span class="brand-accent">Prediction</span></span>
+      </a>
+      <nav class="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/predict" class="nav-link">New Valuation</a>
+        <a href="/#model" class="nav-link">Model Benchmark</a>
+      </nav>
+      <div class="nav-action">
+        <a href="/predict" class="btn btn-outline btn-sm">← New Prediction</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Result Hero Section with Real Estate Background -->
+  <section class="result-hero">
+    <div class="result-hero-overlay"></div>
+    <div class="result-hero-content">
+      <div class="result-success-badge">
+        <span class="badge-icon">✅</span> Valuation Report Generated Successfully
+      </div>
+      <h1 class="result-hero-title">Property Valuation Summary</h1>
+      <p class="result-hero-subtitle">
+        Estimated fair-market value for the property in <strong>{{ result.inputs.neighborhood }}</strong> 
+        calculated using our Tuned Random Forest regression model.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Result Dashboard -->
+  <main class="container result-dashboard">
+    
+    <!-- Primary Valuation Highlight Card -->
+    <div class="valuation-showcase-card shadow-glow">
+      <div class="showcase-header">
+        <span class="showcase-label">ESTIMATED MARKET VALUATION</span>
+        <span class="tag-model">Random Forest • 300 Trees</span>
+      </div>
+
+      <div class="showcase-price-row">
+        <div class="showcase-price">{{ result.formatted_price }}</div>
+        <div class="showcase-range">
+          <span class="range-title">Estimated Market Band (± MAE)</span>
+          <span class="range-values">{{ result.lower_bound }} — {{ result.upper_bound }}</span>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="showcase-metrics-bar">
+        <div class="metric-pill">
+          <span class="pill-label">Est. Price / Sq Ft</span>
+          <span class="pill-value">{{ result.price_per_sqft }}</span>
+        </div>
+        <div class="metric-pill">
+          <span class="pill-label">Ames Median Comparison</span>
+          <span class="pill-value {{ 'text-success' if result.is_above_median else 'text-warning' }}">
+            {{ result.diff_from_median }} vs Median
+          </span>
+        </div>
+        <div class="metric-pill">
+          <span class="pill-label">Property Age</span>
+          <span class="pill-value">{{ result.inputs.property_age }} Years (Built {{ result.inputs.year_built }})</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="result-grid">
+      
+      <!-- Specifications Summary Card -->
+      <div class="glass-card">
+        <div class="card-header">
+          <span class="header-icon">📋</span>
+          <div>
+            <h3>Submitted Property Attributes</h3>
+            <p>Parameters used for model inference</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="specs-table-grid">
+            <div class="spec-cell">
+              <span class="spec-k">Neighborhood</span>
+              <span class="spec-v">{{ result.inputs.neighborhood }}</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Living Space</span>
+              <span class="spec-v">{{ "{:,}".format(result.inputs.gr_liv_area) }} sq ft</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Bedrooms</span>
+              <span class="spec-v">{{ result.inputs.bedrooms }} Bed</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Bathrooms</span>
+              <span class="spec-v">{{ result.inputs.full_baths }} Full, {{ result.inputs.half_baths }} Half</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Lot Size</span>
+              <span class="spec-v">{{ "{:,}".format(result.inputs.lot_area) }} sq ft</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Basement Area</span>
+              <span class="spec-v">{{ "{:,}".format(result.inputs.total_bsmt_sf) }} sq ft</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Overall Quality</span>
+              <span class="spec-v">{{ result.inputs.overall_qual }} / 10</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Overall Condition</span>
+              <span class="spec-v">{{ result.inputs.overall_cond }} / 10</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Year Remodeled</span>
+              <span class="spec-v">{{ result.inputs.year_remod }}</span>
+            </div>
+            <div class="spec-cell">
+              <span class="spec-k">Garage Capacity</span>
+              <span class="spec-v">{{ result.inputs.garage_cars }} Cars ({{ result.inputs.garage_area }} sq ft)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model Performance & Technical Verification Card -->
+      <div class="glass-card">
+        <div class="card-header">
+          <span class="header-icon">🔬</span>
+          <div>
+            <h3>Model Confidence & Metrics</h3>
+            <p>Empirical benchmark results on test partition</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="confidence-list">
+            <div class="conf-item">
+              <div class="conf-label-row">
+                <span>Test Set R² Accuracy</span>
+                <strong>89.06%</strong>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: 89.06%;"></div>
+              </div>
+            </div>
+
+            <div class="conf-item">
+              <div class="conf-label-row">
+                <span>5-Fold Cross-Validation R²</span>
+                <strong>85.29% (±3.38%)</strong>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill fill-blue" style="width: 85.29%;"></div>
+              </div>
+            </div>
+
+            <div class="benchmark-pills">
+              <div class="pill-stat">
+                <span class="lbl">Test MAE</span>
+                <span class="val">$17,676.40</span>
+              </div>
+              <div class="pill-stat">
+                <span class="lbl">Test RMSE</span>
+                <span class="val">$28,963.06</span>
+              </div>
+              <div class="pill-stat">
+                <span class="lbl">Ensemble Trees</span>
+                <span class="val">300 Trees</span>
+              </div>
+            </div>
+
+            <p class="model-note">
+              ✓ Prediction computed dynamically through serialised Random Forest regressor artifact (`house_price_model.pkl`).
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation & Action Buttons Bar -->
+    <div class="result-actions-bar">
+      <a href="/predict" class="btn btn-primary btn-lg shadow-glow">
+        <span class="btn-icon">🔄</span> Estimate Another Property
+      </a>
+      <a href="/" class="btn btn-outline btn-lg">
+        <span class="btn-icon">🏠</span> Back to Home
+      </a>
+      <button type="button" class="btn btn-secondary btn-lg" onclick="window.print()">
+        <span class="btn-icon">🖨️</span> Print / Save Report
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>© 2026 HousePrice.AI • Machine Learning Property Valuation</p>
+    </div>
+  </footer>
+
+</body>
+</html>

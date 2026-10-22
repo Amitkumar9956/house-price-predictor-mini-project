@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HousePrice prediction | Real Estate Property Valuation</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="home-page">
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <span class="brand-icon">🏠</span>
+        <span class="brand-text">HousePrice <span class="brand-accent">Prediction</span></span>
+      </a>
+      <nav class="nav-menu">
+        <a href="/" class="nav-link active">Home</a>
+        <a href="/predict" class="nav-link">Valuation Engine</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#model" class="nav-link">Model Benchmark</a>
+      </nav>
+      <div class="nav-action">
+        <a href="/predict" class="btn btn-primary btn-sm">Estimate Value →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with Project Background Image -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span> Powered by Tuned Random Forest • Ames ML Model
+      </div>
+      <h1 class="hero-title">
+        Intelligent Real Estate <br>
+        <span class="gradient-text">Property Price Valuation</span>
+      </h1>
+      <p class="hero-description">
+        Estimate precise fair-market residential property prices using an advanced 300-tree 
+        Random Forest machine learning model trained on empirical Kaggle Ames housing data.
+      </p>
+      <div class="hero-cta-group">
+        <a href="/predict" class="btn btn-primary btn-lg shadow-glow">
+          <span class="btn-icon">⚡</span> Calculate House Price Now
+        </a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg">
+          Explore How It Works
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Banner -->
+  <section class="stats-banner">
+    <div class="stats-container">
+      <div class="stat-item">
+        <div class="stat-number">89.06%</div>
+        <div class="stat-label">Model R² Accuracy Score</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number">$17,676</div>
+        <div class="stat-label">Mean Absolute Error (MAE)</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number">1,460</div>
+        <div class="stat-label">Trained Properties</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number">244</div>
+        <div class="stat-label">Analyzed Feature Dimensions</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="section-container">
+    <div class="section-header">
+      <span class="section-tag">SIMPLIFIED WORKFLOW</span>
+      <h2 class="section-title">How Our Machine Learning Model Works</h2>
+      <p class="section-subtitle">A seamless four-step pipeline from specification to fair-market valuation.</p>
+    </div>
+
+    <div class="workflow-grid">
+      <div class="workflow-card">
+        <div class="step-badge">01</div>
+        <div class="workflow-icon">📝</div>
+        <h3>Enter Property Details</h3>
+        <p>Provide square footage, bedrooms, bathrooms, construction year, and neighborhood location in our modern input form.</p>
+      </div>
+
+      <div class="workflow-card">
+        <div class="step-badge">02</div>
+        <div class="workflow-icon">⚙️</div>
+        <h3>Feature Preprocessing</h3>
+        <p>The system imputes baseline attributes and performs one-hot encoding across 244 feature columns with zero data leakage.</p>
+      </div>
+
+      <div class="workflow-card">
+        <div class="step-badge">03</div>
+        <div class="workflow-icon">🌲</div>
+        <h3>Random Forest Inference</h3>
+        <p>300 decision trees evaluate non-linear feature interactions and voting thresholds to calculate the optimal market price.</p>
+      </div>
+
+      <div class="workflow-card">
+        <div class="step-badge">04</div>
+        <div class="workflow-icon">📊</div>
+        <h3>Dedicated Result Page</h3>
+        <p>View your valuation report on a dedicated page with price per sq ft, market comparison, and breakdown metrics.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Predictive Drivers & Features -->
+  <section id="features" class="section-container bg-subtle">
+    <div class="section-header">
+      <span class="section-tag">DATA SCIENCE INSIGHTS</span>
+      <h2 class="section-title">Primary Valuation Drivers</h2>
+      <p class="section-subtitle">Discovered through Gini-importance analysis of our trained Random Forest model.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card highlight-card">
+        <div class="feature-icon-wrapper">⭐</div>
+        <div class="feature-weight">56.8% Importance</div>
+        <h3>Overall Material & Finish Quality</h3>
+        <p>OverallQual rating (1–10) is the single most dominant driver of house prices, heavily dictating property tier.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">📐</div>
+        <div class="feature-weight">12.4% Importance</div>
+        <h3>Above-Ground Living Space</h3>
+        <p>Ground living area (GrLivArea) provides direct square-foot valuation scaling for primary interior rooms.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">🏗️</div>
+        <div class="feature-weight">3.4% Importance</div>
+        <h3>Basement Square Footage</h3>
+        <p>Finished and unfinished basement capacity (TotalBsmtSF) adds significant usable space to property appraisal.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">📍</div>
+        <div class="feature-weight">Geographic Driver</div>
+        <h3>Neighborhood Location</h3>
+        <p>Supports all 25 Ames neighborhoods including College Creek, Northridge Heights, Somerset, and Stone Brook.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Model Performance Benchmark Section -->
+  <section id="model" class="section-container">
+    <div class="section-header">
+      <span class="section-tag">VERIFIED EVALUATION</span>
+      <h2 class="section-title">Candidate Models Benchmark</h2>
+      <p class="section-subtitle">Evaluated on a 20% unseen test partition (292 properties).</p>
+    </div>
+
+    <div class="benchmark-table-wrapper">
+      <table class="benchmark-table">
+        <thead>
+          <tr>
+            <th>Model Algorithm</th>
+            <th>R² Score (Accuracy)</th>
+            <th>Mean Absolute Error (MAE)</th>
+            <th>Root Mean Squared Error (RMSE)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="winner-row">
+            <td><strong>🌲 Tuned Random Forest Regressor</strong></td>
+            <td><span class="score-badge success">0.8906 (89.06%)</span></td>
+            <td>$17,676.40</td>
+            <td>$28,963.06</td>
+            <td><span class="badge badge-winner">Selected Production Model</span></td>
+          </tr>
+          <tr>
+            <td>Linear Regression (OLS)</td>
+            <td><span class="score-badge info">0.8671 (86.71%)</span></td>
+            <td>$20,383.84</td>
+            <td>$31,932.17</td>
+            <td><span class="badge">Baseline Model</span></td>
+          </tr>
+          <tr>
+            <td>Decision Tree Regressor</td>
+            <td><span class="score-badge warning">0.7461 (74.61%)</span></td>
+            <td>$28,563.42</td>
+            <td>$44,132.93</td>
+            <td><span class="badge">High Variance</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Call to Action Banner -->
+  <section class="cta-banner">
+    <div class="cta-card">
+      <h2>Ready to Value a Property?</h2>
+      <p>Enter physical specifications to receive an accurate, instant machine learning valuation.</p>
+      <a href="/predict" class="btn btn-primary btn-lg shadow-glow">
+        Launch Valuation Engine →
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="brand-icon">🏠</span>
+        <span class="brand-text">HousePrice<span class="brand-accent">.AI</span></span>
+        <p>End-to-End Residential Property Valuation System powered by Machine Learning.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Navigation</h4>
+        <a href="/">Home</a>
+        <a href="/predict">Valuation Input</a>
+        <a href="#how-it-works">Architecture</a>
+        <a href="#model">Model Performance</a>
+      </div>
+      <div class="footer-details">
+        <h4>Academic Project</h4>
+        <p>B.Tech Computer Science & Engineering</p>
+        <p>United Institute of Technology (284)</p>
+        <p>AKTU, Lucknow • Session 2026–2027</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 HousePrice.AI • Machine Learning Property Valuation</p>
+    </div>
+  </footer>
+
+</body>
+</html>

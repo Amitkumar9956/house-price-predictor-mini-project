@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Valuation Input | HousePrice Prediction</title>
+  <link rel="stylesheet" href="/static/style.css?v=2026">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="input-page">
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="/" class="nav-brand">
+        <span class="brand-icon">🏠</span>
+        <span class="brand-text">HousePrice <span class="brand-accent">Prediction</span></span>
+      </a>
+      <nav class="nav-menu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/predict" class="nav-link active">Valuation Engine</a>
+        <a href="/#model" class="nav-link">Model Benchmark</a>
+      </nav>
+      <div class="nav-action">
+        <a href="/" class="btn btn-outline btn-sm">← Back to Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header Banner -->
+  <section class="page-header">
+    <div class="container">
+      <span class="section-tag">STEP 1: ENTER SPECIFICATIONS</span>
+      <h1 class="page-title">Residential Property Valuation</h1>
+      <p class="page-subtitle">
+        Enter the architectural and spatial dimensions of the property. Our trained Random Forest 
+        regressor will evaluate 244 feature interactions to produce a comprehensive valuation report.
+      </p>
+
+      <!-- Presets Toolbar -->
+      <div class="presets-toolbar">
+        <span class="presets-label">⚡ Fast Sample Profiles:</span>
+        <button type="button" class="preset-chip" onclick="applyPreset('family')">🏡 Standard Family Home</button>
+        <button type="button" class="preset-chip" onclick="applyPreset('luxury')">🏰 Luxury Executive Villa</button>
+        <button type="button" class="preset-chip" onclick="applyPreset('starter')">🏠 Starter Cottage</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Input Form Container -->
+  <main class="container form-main">
+
+    <!-- Flash Error / Info Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            <span class="alert-icon">{{ '⚠️' if category == 'error' else 'ℹ️' }}</span>
+            <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div id="clientAlert" class="alert alert-error hidden">
+      <span class="alert-icon">⚠️</span>
+      <span id="clientAlertText"></span>
+    </div>
+
+    <!-- Prediction Form -->
+    <form id="valuationForm" action="/calculate" method="POST" onsubmit="handleFormSubmit(event)">
+      
+      <div class="form-grid">
+        
+        <!-- Card 1: Location & Neighborhood -->
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="header-icon">📍</span>
+            <div>
+              <h3>Location & Neighborhood</h3>
+              <p>Geographic subdivision within Ames city limits</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <label for="neighborhood">Ames Neighborhood</label>
+              <select id="neighborhood" name="Neighborhood" required>
+                {% for n in neighborhoods %}
+                  <option value="{{ n }}" {% if n == 'CollgCr' %}selected{% endif %}>{{ n }}</option>
+                {% endfor %}
+              </select>
+              <span class="field-hint">Key factor in school district & land valuation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Material Quality & Condition -->
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="header-icon">⭐</span>
+            <div>
+              <h3>Quality & Condition</h3>
+              <p>Top valuation driver (56.8% feature importance)</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <div class="slider-header">
+                <label for="overallQual">Overall Finish Quality</label>
+                <span class="slider-val-badge" id="qualBadge">6 / 10</span>
+              </div>
+              <input type="range" id="overallQual" name="OverallQual" min="1" max="10" value="6" 
+                     oninput="updateSliderBadge('qualBadge', this.value, '/ 10')">
+              <div class="slider-ticks">
+                <span>1 (Poor)</span>
+                <span>5 (Average)</span>
+                <span>10 (Luxury)</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <div class="slider-header">
+                <label for="overallCond">Overall Maintenance Condition</label>
+                <span class="slider-val-badge" id="condBadge">5 / 10</span>
+              </div>
+              <input type="range" id="overallCond" name="OverallCond" min="1" max="10" value="5" 
+                     oninput="updateSliderBadge('condBadge', this.value, '/ 10')">
+              <div class="slider-ticks">
+                <span>1 (Poor)</span>
+                <span>5 (Normal)</span>
+                <span>10 (Pristine)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Living Space & Area -->
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="header-icon">📐</span>
+            <div>
+              <h3>Dimensions & Space</h3>
+              <p>Core square footage measurements</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="input-group">
+              <label for="grLivArea">Ground Living Area (sq ft)</label>
+              <div class="input-with-unit">
+                <input type="number" id="grLivArea" name="GrLivArea" min="300" max="12000" value="1600" step="50" required>
+                <span class="unit-tag">sq ft</span>
+              </div>
+              <span class="field-hint">Above-grade finished living space</span>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label for="lotArea">Lot Size</label>
+                <div class="input-with-unit">
+                  <input type="number" id="lotArea" name="LotArea" min="500" max="150000" value="8500" step="100" required>
+                  <span class="unit-tag">sq ft</span>
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="totalBsmtSF">Basement Area</label>
+                <div class="input-with-unit">
+                  <input type="number" id="totalBsmtSF" name="TotalBsmtSF" min="0" max="6000" value="900" step="50" required>
+                  <span class="unit-tag">sq ft</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Rooms & Bathrooms -->
+        <div class="glass-card">
+          <div class="card-header">
+            <span class="header-icon">🛏️</span>
+            <div>
+              <h3>Rooms & Layout</h3>
+              <p>Interior layout and bathroom configuration</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="input-row">
+              <div class="input-group">
+                <label for="bedroomAbvGr">Bedrooms</label>
+                <input type="number" id="bedroomAbvGr" name="BedroomAbvGr" min="0" max="10" value="3" required>
+              </div>
+              <div class="input-group">
+                <label for="totRmsAbvGrd">Total Rooms</label>
+                <input type="number" id="totRmsAbvGrd" name="TotRmsAbvGrd" min="2" max="16" value="6" required>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label for="fullBath">Full Baths</label>
+                <input type="number" id="fullBath" name="FullBath" min="0" max="6" value="2" required>
+              </div>
+              <div class="input-group">
+                <label for="halfBath">Half Baths</label>
+                <input type="number" id="halfBath" name="HalfBath" min="0" max="4" value="1" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Construction Age & Garage -->
+        <div class="glass-card full-width-card">
+          <div class="card-header">
+            <span class="header-icon">🏗️</span>
+            <div>
+              <h3>Construction Age & Garage Facilities</h3>
+              <p>Historical dates and vehicle parking accommodations</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="input-row four-col">
+              <div class="input-group">
+                <label for="yearBuilt">Year Built</label>
+                <input type="number" id="yearBuilt" name="YearBuilt" min="1870" max="2030" value="1995" required>
+              </div>
+              <div class="input-group">
+                <label for="yearRemodAdd">Year Remodeled</label>
+                <input type="number" id="yearRemodAdd" name="YearRemodAdd" min="1950" max="2030" value="2005" required>
+              </div>
+              <div class="input-group">
+                <label for="garageCars">Garage Capacity</label>
+                <select id="garageCars" name="GarageCars" onchange="autoFillGarageArea(this.value)">
+                  <option value="0">0 Cars (No Garage)</option>
+                  <option value="1">1 Car</option>
+                  <option value="2" selected>2 Cars</option>
+                  <option value="3">3 Cars</option>
+                  <option value="4">4+ Cars</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="garageArea">Garage Area</label>
+                <div class="input-with-unit">
+                  <input type="number" id="garageArea" name="GarageArea" min="0" max="2000" value="480" step="20" required>
+                  <span class="unit-tag">sq ft</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Submit Action Bar -->
+      <div class="form-submit-bar">
+        <button type="submit" id="submitBtn" class="btn btn-primary btn-xl shadow-glow">
+          <span class="btn-text">Generate Property Valuation Report →</span>
+        </button>
+        <p class="submit-disclaimer">
+          🔒 Valuation calculated using Random Forest Regression on empirical Ames housing data.
+        </p>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- Full-Screen Processing Overlay (Active during submission) -->
+  <div id="processingOverlay" class="processing-overlay hidden">
+    <div class="processing-card">
+      <div class="spinner-pulse"></div>
+      <h3>Evaluating Property Valuation...</h3>
+      <p>Analyzing 244 architectural and spatial features through 300 Random Forest decision trees.</p>
+      <div class="progress-bar-indeterminate"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom">
+      <p>© 2026 HousePrice.AI • Machine Learning Property Valuation</p>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
